@@ -6,21 +6,23 @@ import java.util.List;
 public class Mixta implements Topografia{
 	List<Topografia> topografias;
 	
-	public Mixta() {
-		this.topografias = new ArrayList<Topografia>();
+	public Mixta(List<Topografia> topografias) {
+		this.topografias = topografias;
 	}
 	
 	public double proporcion() {
 		return this.topografias.stream()
 				.mapToDouble(t->t.proporcion())
-				.average().orElse(0);
+				.sum() / 4;
 	}
 	
-	public void add(Topografia t) {
-		this.topografias.add(t);
+	public List<Double> estructura(){
+		List<Double> l = new ArrayList<Double>();
+		this.topografias.forEach(topo->l.addAll(topo.estructura()));
+		return l;
 	}
 	
-	public void remove(Topografia t) {
-		this.topografias.remove(t);
+	public boolean equals(Topografia other) {
+		return this.estructura().equals(other.estructura());
 	}
 }
